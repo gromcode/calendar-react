@@ -5,6 +5,7 @@ import { months } from '../../utils/dateUtils.js';
 import './header.scss';
 
 const Header = ({
+  month,
   onCreateEvent,
   onTodayMove,
   onSwitchWeekUp,
@@ -37,7 +38,7 @@ const Header = ({
         >
           <i className='fas fa-chevron-right'></i>
         </button>
-        <span className='navigation__displayed-month'></span>
+        <span className='navigation__displayed-month'>{month}</span>
       </div>
     </header>
   );

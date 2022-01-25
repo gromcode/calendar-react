@@ -2,7 +2,11 @@ import React, { Component, useEffect, useState } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 
-import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
+import {
+  getWeekStartDate,
+  generateWeekRange,
+  getMonth,
+} from '../src/utils/dateUtils.js';
 
 import './common.scss';
 
@@ -21,17 +25,15 @@ const App = () => {
   };
 
   const onTodayMove = () => {
-    console.log('today move');
+    setWeekStartDate(new Date());
   };
 
   const onSwitchWeekUp = () => {
-    //1. добавляем 7 дней к стартовой дате
     const plusSevenDay = weekStartDate.setDate(weekStartDate.getDate() + 7);
     setWeekStartDate(new Date(plusSevenDay));
   };
 
   const onSwitchWeekDown = () => {
-    // 1.отнимаем 7 дней от стартовой даты
     const minusSevenDay = weekStartDate.setDate(weekStartDate.getDate() - 7);
     setWeekStartDate(new Date(minusSevenDay));
   };
@@ -39,6 +41,7 @@ const App = () => {
   return (
     <>
       <Header
+        month={getMonth(weekStartDate)}
         onCreateEvent={onCreateEvent}
         onTodayMove={onTodayMove}
         onSwitchWeekUp={onSwitchWeekUp}

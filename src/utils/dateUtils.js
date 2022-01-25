@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getWeekStartDate = (date) => {
   const dateCopy = new Date(date);
   const dayOfWeek = dateCopy.getDay();
@@ -8,6 +10,11 @@ export const getWeekStartDate = (date) => {
 
   const monday = new Date(dateCopy.setDate(date.getDate() + difference));
   return new Date(monday.getFullYear(), monday.getMonth(), monday.getDate());
+};
+
+export const getMonth = (date) => {
+  const formatDate = moment(new Date(date)).format('LL').split(' ')[0];
+  return formatDate;
 };
 
 export const generateWeekRange = (startDate) => {
