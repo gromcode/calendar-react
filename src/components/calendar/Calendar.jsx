@@ -12,14 +12,6 @@ const Calendar = (props) => {
 
   const { weekDates } = props;
 
-  useEffect(() => {
-    const onCreateEvent = () => {
-      console.log('create event');
-    };
-
-    return;
-  }, []);
-
   return (
     <section className='calendar'>
       <Navigation weekDates={weekDates} />
