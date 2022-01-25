@@ -1,27 +1,29 @@
-import React, { Component } from "react";
-import Header from "./components/header/Header.jsx";
-import Calendar from "./components/calendar/Calendar.jsx";
+import React, { Component, useState } from 'react';
+import Header from './components/header/Header.jsx';
+import Calendar from './components/calendar/Calendar.jsx';
 
-import { getWeekStartDate, generateWeekRange } from "../src/utils/dateUtils.js";
+import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
 
-import "./common.scss";
+import './common.scss';
 
-class App extends Component {
-  state = {
-    weekStartDate: new Date(),
+const App = () => {
+  const [weekStartDate, setWeekStartDate] = useState(new Date());
+
+  const onCreateEvent = () => {
+    console.log('create event');
   };
 
-  render() {
-    const { weekStartDate } = this.state;
-    const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
+  const onTodayMove = () => {
+    console.log('today move');
+  };
+  const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
 
-    return (
-      <>
-        <Header />
-        <Calendar weekDates={weekDates} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Header onCreateEvent={onCreateEvent} onTodayMove={onTodayMove} />
+      <Calendar weekDates={weekDates} />
+    </>
+  );
+};
 
 export default App;
