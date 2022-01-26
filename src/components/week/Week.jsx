@@ -1,25 +1,30 @@
-import React from "react";
-import Day from "../day/Day";
+import React from 'react';
+import Day from '../day/Day';
+import events from '../../gateway/events';
 
-import "./week.scss";
+import './week.scss';
 
-const Week = ({ weekDates, events }) => {
+const Week = ({ weekDates }) => {
   return (
-    <div className="calendar__week">
-      {weekDates.map((dayStart) => {
-        const dayEnd = new Date(dayStart.getTime()).setHours(
+    <div className='calendar__week'>
+      {weekDates.map((day) => {
+        /* const dayEnd = new Date(dayStart.getTime()).setHours(
           dayStart.getHours() + 24
-        );
+        ); */
 
         //getting all events from the day we will render
-        const dayEvents = events.filter(
-          (event) => event.dateFrom > dayStart && event.dateTo < dayEnd
-        );
+        const dayEvents = events
+          .slice()
+          .filter(
+            (event) =>
+              event.dateFrom.getMonth() === day.getMonth() &&
+              event.dateTo.getDate() === day.getDate()
+          );
 
         return (
           <Day
-            key={dayStart.getDate()}
-            dataDay={dayStart.getDate()}
+            key={day.getTime()}
+            dataDay={day.getDate()}
             dayEvents={dayEvents}
           />
         );
