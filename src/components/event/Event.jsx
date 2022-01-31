@@ -1,17 +1,26 @@
-import React from "react";
+import React from 'react';
 
-import "./event.scss";
+import './event.scss';
 
-const Event = ({ height, marginTop, title, time }) => {
+const Event = ({ height, marginTop, id, title, time, onDeleteEvent }) => {
   const eventStyle = {
     height,
     marginTop,
   };
 
+  const clickHandler = (event) => {
+    const id = event.target.dataset.id;
+    onDeleteEvent(id);
+  };
+
   return (
-    <div style={eventStyle} className="event">
-      <div className="event__title">{title}</div>
-      <div className="event__time">{time}</div>
+    <div style={eventStyle} className='event' onClick={clickHandler}>
+      <div data-id={id} className='event__title'>
+        {title}
+      </div>
+      <div data-id={id} className='event__time'>
+        {time}
+      </div>
     </div>
   );
 };

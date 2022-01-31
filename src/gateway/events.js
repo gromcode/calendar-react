@@ -3,8 +3,8 @@ const events = [
     id: 1,
     title: 'Go to the gym',
     description: 'some text here',
-    dateFrom: new Date(2021, 0, 24, 10, 15),
-    dateTo: new Date(2021, 0, 24, 11, 30),
+    dateFrom: new Date(2021, 1, 1, 10, 15),
+    dateTo: new Date(2021, 1, 1, 11, 30),
   },
   {
     id: 2,

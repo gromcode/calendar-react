@@ -1,16 +1,26 @@
 import React from 'react';
 
-import { months } from '../../utils/dateUtils.js';
+import { getFormatedMonth, months } from '../../utils/dateUtils.js';
 
 import './header.scss';
 
 const Header = ({
-  month,
+  weekDates,
   onCreateEvent,
   onTodayMove,
   onSwitchWeekUp,
   onSwitchWeekDown,
 }) => {
+  const getDisplayMonth = () => {
+    if (weekDates[0].getMonth() === weekDates[6].getMonth()) {
+      return getFormatedMonth(weekDates[0]);
+    } else {
+      return (
+        getFormatedMonth(weekDates[0]) + ' - ' + getFormatedMonth(weekDates[6])
+      );
+    }
+  };
+
   return (
     <header className='header'>
       <button
@@ -38,7 +48,7 @@ const Header = ({
         >
           <i className='fas fa-chevron-right'></i>
         </button>
-        <span className='navigation__displayed-month'>{month}</span>
+        <span className='navigation__displayed-month'>{getDisplayMonth()}</span>
       </div>
     </header>
   );

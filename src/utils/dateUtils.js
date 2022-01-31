@@ -12,7 +12,7 @@ export const getWeekStartDate = (date) => {
   return new Date(monday.getFullYear(), monday.getMonth(), monday.getDate());
 };
 
-export const getMonth = (date) => {
+export const getFormatedMonth = (date) => {
   const formatDate = moment(new Date(date)).format('LL').split(' ')[0];
   return formatDate;
 };

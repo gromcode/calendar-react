@@ -1,26 +1,37 @@
-import React from "react";
-import Hour from "../hour/Hour";
+import React, { useState } from 'react';
+import Hour from '../hour/Hour';
+import RedLine from '../redLine/RedLine';
 
-import "./day.scss";
+import './day.scss';
 
-const Day = ({ dataDay, dayEvents }) => {
+const Day = ({ dataDay, dayEvents, onDeleteEvent }) => {
   const hours = Array(24)
     .fill()
     .map((val, index) => index);
 
-  return (
-    <div className="calendar__day" data-day={dataDay}>
-      {hours.map((hour) => {
-        //getting all events from the day we will render
-        const hourEvents = dayEvents.filter(
-          (event) => event.dateFrom.getHours() === hour
-        );
+  const [isToday, setIsToday] = useState(dataDay === new Date().getDate());
 
-        return (
-          <Hour key={dataDay + hour} dataHour={hour} hourEvents={hourEvents} />
-        );
-      })}
-    </div>
+  return (
+    <>
+      <div className='calendar__day' data-day={dataDay}>
+        {isToday && <RedLine />}
+        {hours.map((hour) => {
+          //getting all events from the day we will render
+          const hourEvents = dayEvents.filter(
+            (event) => event.dateFrom.getHours() === hour
+          );
+
+          return (
+            <Hour
+              key={dataDay + hour}
+              onDeleteEvent={onDeleteEvent}
+              dataHour={hour}
+              hourEvents={hourEvents}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 };
 
