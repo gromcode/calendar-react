@@ -9,12 +9,16 @@ const Event = ({ height, marginTop, id, title, time, onDeleteEvent }) => {
   };
 
   const clickHandler = (event) => {
-    const id = event.target.dataset.id;
-    onDeleteEvent(id);
+    onDeleteEvent(event.target.dataset.id);
   };
 
   return (
-    <div style={eventStyle} className='event' onClick={clickHandler}>
+    <div
+      data-id={id}
+      style={eventStyle}
+      className='event'
+      onClick={clickHandler}
+    >
       <div data-id={id} className='event__title'>
         {title}
       </div>

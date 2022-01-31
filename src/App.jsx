@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
-import events from './gateway/events';
+import { createEvent, deleteEvent, fetchEventInfo } from './gateway/events';
 
 import {
   getWeekStartDate,
@@ -13,15 +13,32 @@ import {
 import './common.scss';
 
 const App = () => {
+  const [events, setEvents] = useState([]);
   const [weekStartDate, setWeekStartDate] = useState(new Date());
   const [weekDates, setWeekDates] = useState(
     generateWeekRange(getWeekStartDate(weekStartDate))
   );
   const [isShowModal, setIsShowModal] = useState(false);
+  const [dateInfoForDefault, setdateInfoForDefault] = useState([
+    new Date().getHours(),
+    new Date().getDate(),
+  ]);
 
   useEffect(() => {
     setWeekDates(generateWeekRange(getWeekStartDate(weekStartDate)));
   }, [weekStartDate]);
+
+  const updateEvents = () => {
+    debugger;
+    fetchEventInfo().then((events) => {
+      console.log(events);
+      setEvents(events);
+    });
+  };
+
+  useEffect(() => {
+    updateEvents();
+  }, []);
 
   const onTodayMove = () => {
     setWeekStartDate(new Date());
@@ -36,15 +53,29 @@ const App = () => {
     const minusSevenDay = weekStartDate.setDate(weekStartDate.getDate() - 7);
     setWeekStartDate(new Date(minusSevenDay));
   };
-  const onCreateEvent = () => {
+
+  const onCreateEvent = (hour, date) => {
     setIsShowModal(true);
+    if (hour === undefined) return;
+    console.log(+hour, date);
+    setdateInfoForDefault([+hour, date]);
   };
+
+  const onDeleteEvent = (id) => {
+    console.log(id);
+    deleteEvent(id).then(() => {
+      updateEvents();
+    });
+  };
+
   const onHideModal = () => {
     setIsShowModal(false);
   };
 
   const onSubmitModal = (eventInfo) => {
-    events.push(eventInfo);
+    createEvent(eventInfo).then(() => {
+      updateEvents();
+    });
     setIsShowModal(false);
   };
   return (
@@ -58,9 +89,13 @@ const App = () => {
       />
       <Calendar
         weekDates={weekDates}
+        events={events}
         isShowModal={isShowModal}
+        dateInfoForDefault={dateInfoForDefault}
+        onCreateEvent={onCreateEvent}
         onHideModal={onHideModal}
         onSubmitModal={onSubmitModal}
+        onDeleteEvent={onDeleteEvent}
       />
     </>
   );

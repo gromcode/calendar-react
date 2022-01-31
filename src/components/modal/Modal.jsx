@@ -1,19 +1,25 @@
+import moment from 'moment';
 import React, { useState } from 'react';
-import { getDateTime } from '../../utils/dateUtils';
+import { formatMins, getDateTime } from '../../utils/dateUtils';
 
 import './modal.scss';
 
-const Modal = ({ onHideModal, onSubmitModal }) => {
+const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
   const [eventData, setEventData] = useState({
-    title: null,
-    date: null,
-    dateFrom: null,
-    dateTo: null,
-    description: null,
+    title: '',
+    date: `${dateInfoForDefault[1].getFullYear()}-${formatMins(
+      dateInfoForDefault[1].getMonth() + 1
+    )}-${formatMins(dateInfoForDefault[1].getDate())}`,
+    dateFrom: `${formatMins(dateInfoForDefault[0])}:00`,
+    dateTo: `${formatMins(dateInfoForDefault[0] + 1)}:00`,
+    // не корректно работает меньше чем за 15 минут до конца часа
+    description: '',
   });
 
+  console.log(eventData);
+
   const onChangeValueModal = (event) => {
-    const { name, value, type } = event.target;
+    const { name, value } = event.target;
     setEventData({
       ...eventData,
       [name]: value,
@@ -42,9 +48,10 @@ const Modal = ({ onHideModal, onSubmitModal }) => {
             <input
               type='text'
               name='title'
-              placeholder='Title'
+              placeholder='enter title'
               className='event-form__field'
               onChange={onChangeValueModal}
+              value={eventData.title}
             />
             <div className='event-form__time'>
               <input
@@ -52,12 +59,14 @@ const Modal = ({ onHideModal, onSubmitModal }) => {
                 name='date'
                 className='event-form__field'
                 onChange={onChangeValueModal}
+                value={eventData.date}
               />
               <input
                 type='time'
                 name='dateFrom'
                 className='event-form__field'
                 onChange={onChangeValueModal}
+                value={eventData.dateFrom}
               />
               <span>-</span>
               <input
@@ -65,13 +74,15 @@ const Modal = ({ onHideModal, onSubmitModal }) => {
                 name='dateTo'
                 className='event-form__field'
                 onChange={onChangeValueModal}
+                value={eventData.dateTo}
               />
             </div>
             <textarea
               name='description'
-              placeholder='Description'
+              placeholder='enter description'
               className='event-form__field'
               onChange={onChangeValueModal}
+              value={eventData.description}
             ></textarea>
             <button type='submit' className='event-form__submit-btn'>
               Create

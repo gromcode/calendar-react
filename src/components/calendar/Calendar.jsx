@@ -7,17 +7,35 @@ import Modal from '../modal/Modal';
 
 import './calendar.scss';
 
-const Calendar = ({ weekDates, isShowModal, onHideModal, onSubmitModal }) => {
+const Calendar = ({
+  weekDates,
+  events,
+  isShowModal,
+  dateInfoForDefault,
+  onHideModal,
+  onSubmitModal,
+  onDeleteEvent,
+  onCreateEvent,
+}) => {
   return (
     <section className='calendar'>
       {isShowModal && (
-        <Modal onHideModal={onHideModal} onSubmitModal={onSubmitModal} />
+        <Modal
+          onHideModal={onHideModal}
+          onSubmitModal={onSubmitModal}
+          dateInfoForDefault={dateInfoForDefault}
+        />
       )}
       <Navigation weekDates={weekDates} />
       <div className='calendar__body'>
         <div className='calendar__week-container'>
           <Sidebar />
-          <Week weekDates={weekDates} />
+          <Week
+            weekDates={weekDates}
+            events={events}
+            onDeleteEvent={onDeleteEvent}
+            onCreateEvent={onCreateEvent}
+          />
         </div>
       </div>
     </section>

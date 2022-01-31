@@ -3,16 +3,36 @@ import React from 'react';
 import Event from '../event/Event';
 import { formatMins } from '../../../src/utils/dateUtils.js';
 
-const Hour = ({ dataHour, hourEvents, onDeleteEvent }) => {
+const Hour = ({
+  dataHour,
+  dataDate,
+  hourEvents,
+  onDeleteEvent,
+  onCreateEvent,
+}) => {
+  const clickHandler = (event) => {
+    const time = event.target.dataset.time;
+    const date = new Date(+event.target.dataset.date);
+    console.log(time, date);
+    onCreateEvent(time, date);
+  };
+
   return (
-    <div className='calendar__time-slot' data-time={dataHour + 1}>
+    <div
+      onClick={clickHandler}
+      className='calendar__time-slot'
+      data-time={dataHour}
+      data-date={dataDate}
+    >
       {/* if no events in the current hour nothing will render here */}
       {hourEvents.map(({ id, dateFrom, dateTo, title }) => {
-        const eventStart = `${dateFrom.getHours()}:${formatMins(
-          dateFrom.getMinutes()
+        const formatedDateFrom = new Date(dateFrom);
+        const formatedDateTo = new Date(dateTo);
+        const eventStart = `${formatedDateFrom.getHours()}:${formatMins(
+          formatedDateFrom.getMinutes()
         )}`;
-        const eventEnd = `${dateTo.getHours()}:${formatMins(
-          dateTo.getMinutes()
+        const eventEnd = `${formatedDateTo.getHours()}:${formatMins(
+          formatedDateTo.getMinutes()
         )}`;
 
         return (
@@ -21,8 +41,11 @@ const Hour = ({ dataHour, hourEvents, onDeleteEvent }) => {
             id={id}
             onDeleteEvent={onDeleteEvent}
             //calculating event height = duration of event in minutes
-            height={(dateTo.getTime() - dateFrom.getTime()) / (1000 * 60)}
-            marginTop={dateFrom.getMinutes()}
+            height={
+              (formatedDateTo.getTime() - formatedDateFrom.getTime()) /
+              (1000 * 60)
+            }
+            marginTop={formatedDateFrom.getMinutes()}
             time={`${eventStart} - ${eventEnd}`}
             title={title}
           />

@@ -1,21 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Day from '../day/Day';
-import events from '../../gateway/events';
 
 import './week.scss';
 
-const Week = ({ weekDates }) => {
-  const [allEvents, setAllEvents] = useState(events);
-
-  useEffect(() => {
-    setAllEvents(events);
-  }, [events]);
-
-  const onDeleteEvent = (id) => {
-    const newEvents = allEvents.filter((event) => event.id !== +id);
-    setAllEvents(newEvents);
-  };
-
+const Week = ({ weekDates, onDeleteEvent, onCreateEvent, events }) => {
   return (
     <div className='calendar__week'>
       {weekDates.map((day) => {
@@ -23,20 +11,20 @@ const Week = ({ weekDates }) => {
           dayStart.getHours() + 24
         ); */
 
-        //getting all events from the day we will render
-        const dayEvents = allEvents
+        const dayEvents = events
           .slice()
           .filter(
             (event) =>
-              event.dateFrom.getMonth() === day.getMonth() &&
-              event.dateTo.getDate() === day.getDate()
+              new Date(event.dateFrom).getMonth() === day.getMonth() &&
+              new Date(event.dateTo).getDate() === day.getDate()
           );
 
         return (
           <Day
             onDeleteEvent={onDeleteEvent}
+            onCreateEvent={onCreateEvent}
             key={day.getTime()}
-            dataDay={day.getDate()}
+            dateDay={day}
             dayEvents={dayEvents}
           />
         );
