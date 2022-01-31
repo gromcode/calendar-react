@@ -6,7 +6,7 @@ import events from './gateway/events';
 import {
   getWeekStartDate,
   generateWeekRange,
-  getMonth,
+  getFormatedMonth,
   getDateTime,
 } from '../src/utils/dateUtils.js';
 
@@ -50,7 +50,7 @@ const App = () => {
   return (
     <>
       <Header
-        month={getMonth(weekStartDate)}
+        weekDates={weekDates}
         onCreateEvent={onCreateEvent}
         onTodayMove={onTodayMove}
         onSwitchWeekUp={onSwitchWeekUp}
