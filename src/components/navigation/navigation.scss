@@ -15,5 +15,11 @@
     position: relative;
     flex: 1;
     border-left: 1px solid #eee;
+
+    &-label_today {
+      background-color: white;
+      border-radius: 50px;
+      border: 1px solid rgb(69, 78, 197);
+    }
   }
 }
