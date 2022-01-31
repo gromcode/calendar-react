@@ -21,7 +21,7 @@ const App = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [dateInfoForDefault, setdateInfoForDefault] = useState([
     new Date().getHours(),
-    new Date().getDate(),
+    new Date(),
   ]);
 
   useEffect(() => {
@@ -56,13 +56,11 @@ const App = () => {
 
   const onCreateEvent = (hour, date) => {
     setIsShowModal(true);
-    if (hour === undefined) return;
     console.log(+hour, date);
     setdateInfoForDefault([+hour, date]);
   };
 
   const onDeleteEvent = (id) => {
-    console.log(id);
     deleteEvent(id).then(() => {
       updateEvents();
     });

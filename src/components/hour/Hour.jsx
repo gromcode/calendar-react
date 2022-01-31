@@ -13,7 +13,6 @@ const Hour = ({
   const clickHandler = (event) => {
     const time = event.target.dataset.time;
     const date = new Date(+event.target.dataset.date);
-    console.log(time, date);
     onCreateEvent(time, date);
   };
 

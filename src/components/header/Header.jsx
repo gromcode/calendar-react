@@ -25,7 +25,7 @@ const Header = ({
     <header className='header'>
       <button
         className='button create-event-btn'
-        onClick={() => onCreateEvent()}
+        onClick={() => onCreateEvent(new Date().getHours(), new Date())}
       >
         <i className='fas fa-plus create-event-btn__icon'></i>Create
       </button>
