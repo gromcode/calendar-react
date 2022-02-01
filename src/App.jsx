@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 import { createEvent, deleteEvent, fetchEventInfo } from './gateway/events';

@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-
+import PropTypes from 'prop-types';
 import Navigation from './../navigation/Navigation';
 import Week from '../week/Week';
 import Sidebar from '../sidebar/Sidebar';
@@ -40,6 +40,17 @@ const Calendar = ({
       </div>
     </section>
   );
+};
+
+Calendar.propTypes = {
+  weekDates: PropTypes.array.isRequired,
+  events: PropTypes.array.isRequired,
+  isShowModal: PropTypes.bool.isRequired,
+  dateInfoForDefault: PropTypes.array.isRequired,
+  onHideModal: PropTypes.func.isRequired,
+  onSubmitModal: PropTypes.func.isRequired,
+  onDeleteEvent: PropTypes.func.isRequired,
+  onCreateEvent: PropTypes.func.isRequired,
 };
 
 export default Calendar;

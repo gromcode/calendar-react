@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { getFormatedMonth, months } from '../../utils/dateUtils.js';
 
@@ -52,6 +53,14 @@ const Header = ({
       </div>
     </header>
   );
+};
+
+Header.propTypes = {
+  weekDates: PropTypes.array.isRequired,
+  onCreateEvent: PropTypes.func.isRequired,
+  onTodayMove: PropTypes.func.isRequired,
+  onSwitchWeekUp: PropTypes.func.isRequired,
+  onSwitchWeekDown: PropTypes.func.isRequired,
 };
 
 export default Header;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Hour from '../hour/Hour';
 import RedLine from '../redLine/RedLine';
 
@@ -37,6 +38,13 @@ const Day = ({ dateDay, dayEvents, onDeleteEvent, onCreateEvent }) => {
       </div>
     </>
   );
+};
+
+Day.propTypes = {
+  dateDay: PropTypes.object.isRequired,
+  dayEvents: PropTypes.array.isRequired,
+  onDeleteEvent: PropTypes.func.isRequired,
+  onCreateEvent: PropTypes.func.isRequired,
 };
 
 export default Day;

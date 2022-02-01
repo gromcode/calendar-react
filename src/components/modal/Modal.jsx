@@ -1,4 +1,5 @@
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { formatMins, getDateTime } from '../../utils/dateUtils';
 
@@ -211,6 +212,12 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  dateInfoForDefault: PropTypes.array.isRequired,
+  onHideModal: PropTypes.func.isRequired,
+  onSubmitModal: PropTypes.func.isRequired,
 };
 
 export default Modal;
