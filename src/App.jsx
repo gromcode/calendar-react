@@ -30,7 +30,6 @@ const App = () => {
 
   const updateEvents = () => {
     fetchEventInfo().then((events) => {
-      console.log(events);
       setEvents(events);
     });
   };
@@ -60,7 +59,10 @@ const App = () => {
 
   const onDeleteEvent = (id) => {
     const dateFrom = events.find((event) => event.id === id).dateFrom;
-    if (dateFrom / 60000 - new Date().getTime() / 60000 < 15) {
+    if (
+      dateFrom / 60000 - new Date().getTime() / 60000 < 15 &&
+      dateFrom > new Date().getTime()
+    ) {
       alert('cannot be deleted, the event will start soon');
       return;
     }

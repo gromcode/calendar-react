@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Event from '../event/Event';
 import { formatMins } from '../../../src/utils/dateUtils.js';
 
+import './hour.scss';
+
 const Hour = ({
   dataHour,
   dataDate,
