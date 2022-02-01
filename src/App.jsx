@@ -29,7 +29,6 @@ const App = () => {
   }, [weekStartDate]);
 
   const updateEvents = () => {
-    debugger;
     fetchEventInfo().then((events) => {
       console.log(events);
       setEvents(events);
@@ -56,7 +55,6 @@ const App = () => {
 
   const onCreateEvent = (hour, date) => {
     setIsShowModal(true);
-    console.log(+hour, date);
     setdateInfoForDefault([+hour, date]);
   };
 
