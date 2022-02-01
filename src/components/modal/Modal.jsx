@@ -70,7 +70,6 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
     const { date, dateFrom, dateTo } = eventData;
     const [hourFrom, minutesFrom] = dateFrom.split(':').map((el) => +el);
     const [hourTo, minutesTo] = dateTo.split(':').map((el) => +el);
-    debugger;
     if (hourFrom > hourTo) {
       setMessageError('incorrect date');
       return false;

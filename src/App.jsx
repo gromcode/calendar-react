@@ -59,6 +59,12 @@ const App = () => {
   };
 
   const onDeleteEvent = (id) => {
+    const dateFrom = events.find((event) => event.id === id).dateFrom;
+    if (dateFrom / 60000 - new Date().getTime() / 60000 < 15) {
+      alert('cannot be deleted, the event will start soon');
+      return;
+    }
+
     deleteEvent(id).then(() => {
       updateEvents();
     });
@@ -69,6 +75,14 @@ const App = () => {
   };
 
   const onSubmitModal = (eventInfo) => {
+    let isContradicEvents = false;
+    events.forEach(({ dateFrom, dateTo }) => {
+      if (eventInfo.dateFrom < dateTo && eventInfo.dateTo > dateFrom) {
+        alert('events contradict');
+        isContradicEvents = true;
+      }
+    });
+    if (isContradicEvents) return;
     createEvent(eventInfo).then(() => {
       updateEvents();
     });
