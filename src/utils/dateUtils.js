@@ -18,18 +18,19 @@ export const getFormatedMonth = (date) => {
 };
 
 export const generateWeekRange = (startDate) => {
-  const result = [];
-  for (let i = 0; i < 7; i += 1) {
-    const base = new Date(startDate);
-    result.push(new Date(base.setDate(base.getDate() + i)));
-  }
-  return result;
+  return Array(7)
+    .fill(null)
+    .map((el, index) => {
+      const base = new Date(startDate);
+      return new Date(base.setDate(base.getDate() + index));
+    });
 };
 
 export const getDateTime = (date, time) => {
   const [hours, minutes] = time.split(':');
   const withHours = new Date(new Date(date).setHours(Number(hours)));
   const withMinutes = new Date(new Date(withHours).setMinutes(Number(minutes)));
+
   return withMinutes.getTime();
 };
 
@@ -38,17 +39,3 @@ export const formatMins = (mins) => {
 };
 
 export const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-export const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];

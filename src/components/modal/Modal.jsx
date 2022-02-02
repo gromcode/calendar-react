@@ -1,4 +1,3 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { formatMins, getDateTime } from '../../utils/dateUtils';
@@ -6,23 +5,26 @@ import { formatMins, getDateTime } from '../../utils/dateUtils';
 import './modal.scss';
 
 const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
+  const [hours, date] = dateInfoForDefault;
+  const year = date.getFullYear();
+  const month = formatMins(date.getMonth() + 1);
+  const day = formatMins(date.getDate());
+
   const [eventData, setEventData] = useState({
     title: '',
-    date: `${dateInfoForDefault[1].getFullYear()}-${formatMins(
-      dateInfoForDefault[1].getMonth() + 1
-    )}-${formatMins(dateInfoForDefault[1].getDate())}`,
-    dateFrom: `${formatMins(dateInfoForDefault[0])}:00`,
-    dateTo: `${formatMins(dateInfoForDefault[0] + 1)}:00`,
-    // не корректно работает меньше чем за 15 минут до конца часа
+    date: `${year}-${month}-${day}`,
+    dateFrom: `${formatMins(hours)}:00`,
+    dateTo: `${formatMins(hours + 1)}:00`,
     description: '',
   });
-  const [isDisabled, setIsDisabled] = useState(true);
   const [classNames, setClassNames] = useState({
     title: 'event-form__field_invalid',
     date: 'event-form__field',
     dateFrom: 'event-form__field',
     dateTo: 'event-form__field',
   });
+
+  const [isDisabled, setIsDisabled] = useState(true);
   const [messageError, setMessageError] = useState('enter title please');
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
       });
       return true;
     }
+
     setMessageError('enter title please');
     setClassNames({
       ...classNames,
@@ -46,8 +49,9 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
     return false;
   };
 
-  const validateDate = (name, value) => {
+  const validateTime = (name, value) => {
     const mins = +value.split(':')[1];
+
     if (mins % 15 === 0) {
       setClassNames({
         ...classNames,
@@ -55,6 +59,7 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
       });
       return true;
     }
+
     setMessageError('minutes must be a multiple of 15');
     setClassNames({
       ...classNames,
@@ -64,13 +69,10 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
   };
 
   const validateDataEvent = () => {
-    // ожидает что все поля валидны
-    // 1. начало и длительность должны быть кратны 15 минутам
-    // 2. не дольше 6 часов
-    // 3. пересечение событий
-    const { date, dateFrom, dateTo } = eventData;
+    const { dateFrom, dateTo } = eventData;
     const [hourFrom, minutesFrom] = dateFrom.split(':').map((el) => +el);
     const [hourTo, minutesTo] = dateTo.split(':').map((el) => +el);
+
     if (hourFrom > hourTo) {
       setMessageError('incorrect date');
       return false;
@@ -83,7 +85,9 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
       setMessageError('incorrect date');
       return false;
     }
+
     const duration = hourTo * 60 + minutesTo - hourFrom * 60 + minutesFrom;
+
     if (duration > 360) {
       setMessageError('too long event');
       return false;
@@ -96,30 +100,30 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
     if (name === 'title') {
       return validateTitle(value);
     }
-
     if (name === 'dateFrom') {
-      return validateDate(name, value);
+      return validateTime(name, value);
     }
-
     if (name === 'dateTo') {
-      return validateDate(name, value);
+      return validateTime(name, value);
     }
   };
 
   const validate = () => {
     const entriesEvent = Object.entries(eventData);
-    const arrBool = entriesEvent
+    const isValidArr = entriesEvent
       .map(([name, value]) => validateField(name, value))
       .filter((el) => typeof el === 'boolean');
 
-    if (!arrBool.every((isValid) => isValid === true)) {
+    if (!isValidArr.every((isValid) => isValid === true)) {
       setIsDisabled(true);
       return false;
     }
+
     if (!validateDataEvent()) {
       setIsDisabled(true);
       return false;
     }
+
     setIsDisabled(false);
   };
 
@@ -136,6 +140,7 @@ const Modal = ({ dateInfoForDefault, onHideModal, onSubmitModal }) => {
 
   const onFormatedEvent = (event) => {
     event.preventDefault();
+
     const formattedEvent = {
       title: eventData.title,
       dateFrom: getDateTime(eventData.date, eventData.dateFrom),

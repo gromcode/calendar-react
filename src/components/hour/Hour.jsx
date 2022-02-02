@@ -25,10 +25,10 @@ const Hour = ({
       data-time={dataHour}
       data-date={dataDate}
     >
-      {/* if no events in the current hour nothing will render here */}
       {hourEvents.map(({ id, dateFrom, dateTo, title }) => {
         const formatedDateFrom = new Date(dateFrom);
         const formatedDateTo = new Date(dateTo);
+
         const eventStart = `${formatedDateFrom.getHours()}:${formatMins(
           formatedDateFrom.getMinutes()
         )}`;
@@ -41,7 +41,6 @@ const Hour = ({
             key={id}
             id={id}
             onDeleteEvent={onDeleteEvent}
-            //calculating event height = duration of event in minutes
             height={
               (formatedDateTo.getTime() - formatedDateFrom.getTime()) /
               (1000 * 60)

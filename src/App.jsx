@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
-import { createEvent, deleteEvent, fetchEventInfo } from './gateway/events';
+import { createEvent, deleteEvent, fetchEventInfo } from './gateway/gateWay';
 
-import {
-  getWeekStartDate,
-  generateWeekRange,
-  getFormatedMonth,
-  getDateTime,
-} from '../src/utils/dateUtils.js';
+import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
 
 import './common.scss';
 
@@ -38,6 +33,11 @@ const App = () => {
     updateEvents();
   }, []);
 
+  const onCreateEvent = (hour, date) => {
+    setIsShowModal(true);
+    setdateInfoForDefault([+hour, date]);
+  };
+
   const onTodayMove = () => {
     setWeekStartDate(new Date());
   };
@@ -52,15 +52,10 @@ const App = () => {
     setWeekStartDate(new Date(minusSevenDay));
   };
 
-  const onCreateEvent = (hour, date) => {
-    setIsShowModal(true);
-    setdateInfoForDefault([+hour, date]);
-  };
-
   const onDeleteEvent = (id) => {
     const dateFrom = events.find((event) => event.id === id).dateFrom;
     if (
-      dateFrom / 60000 - new Date().getTime() / 60000 < 15 &&
+      Math.abs(dateFrom / 60000 - new Date().getTime() / 60000) < 15 &&
       dateFrom > new Date().getTime()
     ) {
       alert('cannot be deleted, the event will start soon');
@@ -78,18 +73,22 @@ const App = () => {
 
   const onSubmitModal = (eventInfo) => {
     let isContradicEvents = false;
+
     events.forEach(({ dateFrom, dateTo }) => {
       if (eventInfo.dateFrom < dateTo && eventInfo.dateTo > dateFrom) {
         alert('events contradict');
         isContradicEvents = true;
       }
     });
+
     if (isContradicEvents) return;
+
     createEvent(eventInfo).then(() => {
       updateEvents();
     });
     setIsShowModal(false);
   };
+
   return (
     <>
       <Header

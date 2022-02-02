@@ -11,6 +11,7 @@ const Event = ({ height, marginTop, id, title, time, onDeleteEvent }) => {
 
   const clickHandler = (event) => {
     event.stopPropagation();
+
     onDeleteEvent(event.target.dataset.id);
   };
 

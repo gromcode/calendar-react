@@ -10,16 +10,13 @@ const Day = ({ dateDay, dayEvents, onDeleteEvent, onCreateEvent }) => {
     .fill()
     .map((val, index) => index);
 
-  const [isToday, setIsToday] = useState(
-    dateDay.getDate() === new Date().getDate()
-  );
+  const isToday = dateDay.getDate() === new Date().getDate();
 
   return (
     <>
       <div className='calendar__day' data-day={dateDay.getDate()}>
         {isToday && <RedLine />}
         {hours.map((hour) => {
-          //getting all events from the day we will render
           const hourEvents = dayEvents.filter(
             (event) => new Date(event.dateFrom).getHours() === hour
           );

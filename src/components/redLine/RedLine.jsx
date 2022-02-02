@@ -4,6 +4,7 @@ import './redLine.scss';
 
 const RedLine = () => {
   const minutes = new Date().getMinutes();
+
   const [redLineStyle, setStyle] = useState({
     marginTop: new Date().getHours() * 60 + minutes - 2,
   });
